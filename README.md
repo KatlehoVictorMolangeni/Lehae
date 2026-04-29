@@ -60,7 +60,7 @@ Lehae solves this by providing a centralized platform where:
 
 ## 💡 Vision
 
-Lehae aims to become the leading student accommodation platform in Free State, starting in Qwaqwa and expanding.
+Lehae aims to become the leading student accommodation platform in the Free State, starting in Qwaqwa and expanding.
 
 ---
 
@@ -71,6 +71,6 @@ This project is open-source under the MIT License.
 
 ---
 
-## 👤 Author
+## 👤 Author | Founder | Software Engineer
 
-Built by Katleho Victor Molangeni
+Katleho Victor Molangeni -  Cum Laude ICT Graduate⭐🥇
