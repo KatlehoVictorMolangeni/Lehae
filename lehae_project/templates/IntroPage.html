@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehae: Student Accommodation Provider</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .splash-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px; /* very small, clean spacing */
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .logo {
+            width: 250px;
+            height: auto;
+            animation: pulse 1.5s infinite;
+            margin: 0; 
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-top: 10px;
+            color: #1f1f1f;
+        }
+
+        /* Fade in */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Soft pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .progress-container {
+        width: 200px;
+        height: 4px;
+        background-color: #e5e5e5;
+        margin: 20px auto 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    /* moving bar */
+    .progress-bar {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        background-color: #080144;
+        border-radius: 10px;
+        animation: moveLeftRight 2.5s ease-in-out infinite; 
+    }
+
+    /* left → right → left movement */
+    @keyframes moveLeftRight {
+        0% {
+            left: 0%;
+            transform: translateX(0%);
+        }
+        50% {
+            left: 50%;
+            transform: translateX(0%);
+        }
+        100% {
+            left: 0%;
+            transform: translateX(0%);
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="logo" alt="Lehae Logo">
+    <div class="progress-container">
+    <div class="progress-bar">
+
+    </div>
+</div>
+</div>
+
+<script>
+    // Redirect after 2.5 seconds
+    setTimeout(function () {
+        window.location.href = "lehae/home/";
+    }, 2500);
+</script>
+
+</body>
+</html>

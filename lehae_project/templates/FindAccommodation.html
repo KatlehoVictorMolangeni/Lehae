@@ -1,0 +1,1046 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Accommodation | Find Your Perfect Stay</title>
+     <link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+    :root {
+        --dark-blue: #080144;
+        --gold: #d4af37;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: #f7f7f7;
+    }
+
+    /* LOADER */
+#page-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.required {
+    color: var(--gold);
+}
+
+
+/* ===================== */
+/* 🔝 TOP HEADER */
+/* ===================== */
+.top-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* must be high */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    backdrop-filter: blur(10px);
+}
+
+/* LOGO */
+.logo {
+    height: 100px;
+}
+
+/* RIGHT ICONS */
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+/* ICON */
+.icon-btnn {
+    font-size: 22px !important;  /* force override */
+    color: var(--dark-blue);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* WRAPPER */
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* TOOLTIP */
+.tooltip {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+
+    background: var(--dark-blue);
+    color: white;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.25s ease;
+
+    pointer-events: none;
+}
+
+/* little arrow */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--dark-blue) transparent;
+}
+
+/* SHOW ON HOVER */
+.icon-wrapper:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* USER */
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* DROPDOWN */
+/* USER BOX WRAPPER */
+.user-box {
+    position: relative;
+    cursor: pointer;
+}
+
+/* DROPDOWN CARD */
+.dropdown-card {
+    position: absolute;
+    top: 55px;
+    right: 0;
+
+    width: 240px;
+    background: white;
+
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+
+    z-index: 1000;
+}
+
+/* SHOW DROPDOWN */
+.user-box.active .dropdown-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* HEADER */
+.dropdown-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+}
+
+.dropdown-header strong {
+    display: block;
+    font-size: 14px;
+    color: var(--dark-blue);
+}
+
+.dropdown-header span {
+    font-size: 12px;
+    color: #777;
+}
+
+/* ITEMS */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #333;
+
+    transition: 0.2s ease;
+    text-decoration: none;
+}
+
+.dropdown-item .material-icons {
+    font-size: 20px;
+    color: #555;
+}
+
+/* HOVER */
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: var(--dark-blue);
+}
+
+/* LOGOUT */
+.logout {
+    border-top: 1px solid #eee;
+    color: #c0392b;
+}
+
+.logout:hover {
+    background: #fdecea;
+}
+
+/* ===================== */
+/* 🟡 LOWER NAVBAR */
+/* ===================== */
+.main-nav {
+    position: sticky;
+    top: 100px;
+    z-index: 999;
+
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+
+    background: var(--gold);
+    padding: 16px 0;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* NAV ITEM WRAPPER */
+.nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+/* TEXT */
+.nav-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* underline animation */
+.nav-title::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--dark-blue);
+    transition: 0.3s ease;
+}
+
+.nav-item:hover .nav-title::after {
+    width: 100%;
+}
+
+/* hover lift */
+.nav-item:hover {
+    transform: translateY(-2px);
+}
+
+/* ICON */
+.material-icons {
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+
+/* rotate arrow */
+.nav-item:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* ===================== */
+/* 🔽 DROPDOWN */
+/* ===================== */
+.dropdown {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+
+     min-width: 260px;   /* ⬅️ increase width */
+    width: max-content; /* ⬅️ auto fit content */
+    background: white;
+
+    border-radius: 12px;
+    padding: 8px 0;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+/* show dropdown */
+.nav-item:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* dropdown links */
+.dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 18px;
+
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+    white-space: nowrap; /* ⬅️ THIS is the key fix */
+
+    transition: 0.2s ease;
+}
+
+/* icon inside dropdown */
+.dropdown a .material-icons {
+    font-size: 20px;
+    color: var(--dark-blue);
+}
+
+/* hover effect */
+.dropdown a:hover {
+    background: #f5f7fa;
+    padding-left: 22px;
+}
+
+
+
+/* Hero section */
+
+.search-hero {
+    background: #f3f3f3;
+    padding: 30px 50px;
+}
+
+/* ===================== */
+/* 🔍 TOP SEARCH */
+/* ===================== */
+.search-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.search-left {
+    flex: 1;
+}
+
+.search-left label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* input */
+.search-input {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #222;
+    padding: 10px 0;
+}
+
+.search-input input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+/* button */
+.search-btn {
+    background: var(--gold);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===================== */
+/* 🎛 FILTERS */
+/* ===================== */
+.filters-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 25px;
+}
+
+/* second row special layout */
+.filters-row:last-of-type {
+    grid-template-columns: repeat(5, 1fr);
+    align-items: end;
+}
+
+/* filter */
+.filter {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+/* select underline style */
+.filter select {
+    border: none;
+    border-bottom: 2px solid #222;
+    padding: 8px 0;
+    background: transparent;
+    font-size: 14px;
+    outline: none;
+}
+
+/* more filters button */
+.more-filters {
+    justify-self: end;
+
+    border: 1px solid var(--gold);
+    background: transparent;
+
+    padding: 10px 18px;
+    border-radius: 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    cursor: pointer;
+}
+
+/* clear */
+.clear-all {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+}
+
+.date-input {
+    border: none;
+    border-bottom: 2px solid #222;
+    padding: 8px 0;
+    background: transparent;
+    font-size: 14px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+}
+
+
+
+.results-section {
+    padding: 40px 50px;
+}
+
+/* HEADER */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.results-header h2 {
+    font-size: 32px;
+    color: #111;
+}
+
+/* BUTTON */
+.my-properties-btn {
+    background: var(--gold);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* GRID */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* CARD */
+.property-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+}
+
+/* IMAGE */
+.property-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* CONTENT */
+.card-content {
+    padding: 15px;
+}
+
+.card-content h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+/* LOCATION */
+.location {
+    font-size: 13px;
+    color: #666;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* PRICE */
+.price {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0;
+    color: var(--dark-blue);
+}
+
+/* TAGS */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.tags span {
+    background: #f1f1f1;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+/* BUTTON */
+.view-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: var(--gold);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+.required {
+    color: var(--gold);
+}
+</style>
+</head>
+<body>
+
+    <!-- LOADER -->
+<div id="page-loader">
+    <div>
+        <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+        <div class="loader-bar"></div>
+    </div>
+</div>
+
+  <!-- 🔝 TOP HEADER -->
+<div class="top-header">
+
+    <!-- LOGO -->
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
+
+    <!-- RIGHT SIDE -->
+    <div class="top-right">
+
+        <div class="icon-wrapper">
+    <span class="material-icons icon-btnn">search</span>
+    <div class="tooltip">Search for information</div>
+</div>
+
+<div class="icon-wrapper">
+    <span class="material-icons icon-btnn">chat</span>
+    <div class="tooltip">Chat with merchant</div>
+</div>
+
+<div class="icon-wrapper">
+    <span class="material-icons icon-btnn">notifications</span>
+    <div class="tooltip">View notifications</div>
+</div>
+
+        <!-- USER -->
+        <div class="user-box" onclick="toggleUserMenu(this)">
+            <div class="user-avatar">
+                {{ request.user.first_name|slice:":1" }}
+            </div>
+            <span style="font-weight: bold;">{{ request.user.first_name }}</span>
+            <span class="material-icons">expand_more</span>
+              <!-- DROPDOWN CONTENT -->
+    <div class="dropdown-card">
+
+        <!-- HEADER -->
+           <div class="dropdown-header">
+            <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong>
+            <span>Student profile</span>
+        </div>
+
+        <!-- MENU -->
+        <a href="{% url 'StudentProfilePage' %}" class="dropdown-item">
+            <span class="material-icons">person</span>
+            My profile
+       </a>
+
+       <a href="{% url 'ManageAccommodation' %}" class="dropdown-item">
+    <span class="material-icons">home</span>
+    My accommodation
+</a>
+
+        <div class="dropdown-item logout">
+            <span class="material-icons">logout</span>
+            Logout
+        </div>
+
+    </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="main-nav">
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            My Accommodation
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="{% url 'FindAccommodation' %}"><span class="material-icons">search</span> Find Accommodations</a>
+            <a href="{% url 'ManageAccommodation' %}" class="dropdown-item">
+    <span class="material-icons">home</span>
+    Manage Accommodation
+</a>
+            <a href="#"><span class="material-icons">report_problem</span> Log Disputes</a>
+            <a href="#"><span class="material-icons">build</span> Maintenance Requests</a>
+            
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            Payments
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="#"><span class="material-icons">receipt</span> History</a>
+            <a href="#"><span class="material-icons">credit_card</span> Pay Now</a>
+            <a href="#"><span class="material-icons">account_balance_wallet</span> Wallet</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            Explore
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="#"><span class="material-icons">search</span> Find Places</a>
+            <a href="#"><span class="material-icons">location_on</span> Nearby</a>
+            <a href="#"><span class="material-icons">star</span> Featured</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            Support
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="#"><span class="material-icons">help</span> Help Center</a>
+            <a href="#"><span class="material-icons">chat</span> Chat</a>
+            <a href="#"><span class="material-icons">report_problem</span> Report</a>
+        </div>
+    </div>
+
+</div>
+    
+
+
+
+<div class="search-hero">
+
+    <!-- 🔍 TOP ROW -->
+    <div class="search-top">
+
+        <div class="search-left">
+            <label>Search "Enter property name or address"</label>
+
+            <div class="search-input">
+                <span class="material-icons">search</span>
+                <input type="text" placeholder="">
+            </div>
+        </div>
+
+        <button class="search-btn">
+            Search
+            <span class="material-icons">search</span>
+        </button>
+
+    </div>
+
+    <!-- 🎛 FILTER ROW 1 -->
+<div class="filters-row">
+
+    <!-- Institution -->
+    <div class="filter">
+        <label>Institution name <span class="required">*</span></label>
+        <select>
+            <option value="">All institutions</option>
+            <option>UFS Qwaqwa Campus</option>
+            <option>Maluti TVET Lere La Tshepe</option>
+            <option>Maluti TVET Main Campus</option>
+            <option>Maluti TVET Itemoheng</option>
+            <option>Maluti TVET Bonamelo</option>
+        </select>
+    </div>
+
+    <!-- Property Type -->
+    <div class="filter">
+        <label>Property type</label>
+        <select>
+            <option value="">All types</option>
+            <option>Commune</option>
+            <option>Single Rooms</option>
+            <option>Sharing</option>
+            <option>Cottage</option>
+            <option>Flat</option>
+        </select>
+    </div>
+
+    <!-- Radius -->
+    <div class="filter">
+        <label>Radius <span class="required">*</span></label>
+        <select>
+            <option value="">Any distance</option>
+            <option>0 km</option>
+            <option>1 km</option>
+            <option>2 km</option>
+            <option>5 km</option>
+            <option>10 km</option>
+            <option>15 km</option>
+            <option>20 km</option>
+            <option>25 km</option>
+            <option>30 km</option>
+            <option>35 km</option>
+            <option>40 km</option>
+            <option>45 km</option>
+            <option>50 km</option>
+            <option>60 km</option>
+            <option>70 km</option>
+            <option>80 km</option>
+            <option>90 km</option>
+            <option>100 km</option>
+        </select>
+    </div>
+
+</div>
+
+   <!-- 🎛 FILTER ROW 2 -->
+<div class="filters-row">
+
+    <!-- Min Price -->
+    <div class="filter">
+        <label>Minimum price <span class="required">*</span></label>
+        <select>
+            <option value="">Min price</option>
+            <option>R0</option>
+            <option>R1000</option>
+            <option>R1500</option>
+            <option>R2000</option>
+            <option>R2500</option>
+            <option>R3000</option>
+            <option>R4000</option>
+            <option>R5000</option>
+        </select>
+    </div>
+
+    <!-- Max Price -->
+    <div class="filter">
+        <label>Maximum price <span class="required">*</span></label>
+        <select>
+            <option value="">Max price</option>
+            <option>R0</option>
+            <option>R1000</option>
+            <option>R1500</option>
+            <option>R2000</option>
+            <option>R2500</option>
+            <option>R3000</option>
+            <option>R4000</option>
+            <option>R5000</option>
+        </select>
+    </div>
+
+    <!-- Availability Date (REAL FIX) -->
+    <div class="filter">
+        <label>Availability date</label>
+        <input type="date" class="date-input">
+    </div>
+
+    <!-- Accreditation -->
+    <div class="filter">
+        <label>Accreditation type</label>
+        <select>
+            <option value="">All</option>
+            <option>NSFAS Accredited</option>
+            <option>Merchant Accredited</option>
+            <option>Bursary Approved</option>
+        </select>
+    </div>
+
+    <!-- Button -->
+    <button class="more-filters">
+        More filters
+        <span class="material-icons">add</span>
+    </button>
+
+</div>
+    <span class="clear-all">Clear all</span>
+
+</div>
+
+
+
+<div class="results-section">
+
+    <div class="results-header">
+        <h2>Accommodation results:</h2>
+
+        <button class="my-properties-btn">
+            <span class="material-icons">home</span>
+            My properties
+        </button>
+    </div>
+
+    <!-- RESULTS GRID -->
+    <div class="results-grid">
+
+        <!-- CARD 1 -->
+        <div class="property-card">
+            <img src="{% static 'images/student-main.png' %}" alt="property">
+
+            <div class="card-content">
+                <h3>Modern Student Apartment</h3>
+                <p class="location">
+                    <span class="material-icons">location_on</span>
+                    Qwaqwa, Near UFS
+                </p>
+
+                <p class="price">R2 500 / month</p>
+
+                <div class="tags">
+                    <span>NSFAS Accredited</span>
+                    <span>WiFi</span>
+                </div>
+
+                <button class="view-btn">View details</button>
+            </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="property-card">
+            <img src="{% static 'images/student-main.png' %}" alt="property">
+
+            <div class="card-content">
+                <h3>Shared Accommodation</h3>
+                <p class="location">
+                    <span class="material-icons">location_on</span>
+                    Maluti TVET Area
+                </p>
+
+                <p class="price">R1 800 / month</p>
+
+                <div class="tags">
+                    <span>Sharing</span>
+                    <span>Bursary Approved</span>
+                </div>
+
+                <button class="view-btn">View details</button>
+            </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="property-card">
+            <img src="{% static 'images/student-main.png' %}" alt="property">
+
+            <div class="card-content">
+                <h3>Private Room</h3>
+                <p class="location">
+                    <span class="material-icons">location_on</span>
+                    Near Campus Gate
+                </p>
+
+                <p class="price">R3 000 / month</p>
+
+                <div class="tags">
+                    <span>Single Room</span>
+                    <span>Secure</span>
+                </div>
+
+                <button class="view-btn">View details</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script>
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        document.getElementById("page-loader").style.display = "none";
+    }, 1000);
+});
+</script>
+
+<script>
+function toggleUserMenu(element) {
+    element.classList.toggle("active");
+}
+
+/* close dropdown when clicking outside */
+document.addEventListener("click", function(e) {
+    const userBox = document.querySelector(".user-box");
+    if (!userBox.contains(e.target)) {
+        userBox.classList.remove("active");
+    }
+});
+</script>
+</body>
+</html>

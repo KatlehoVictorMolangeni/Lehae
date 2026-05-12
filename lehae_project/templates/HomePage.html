@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehae: Student Accommodation Provider</title>
+
+    <link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        :root {
+            --dark-blue: #080144;
+            --gold: #d4af37;
+            --light-gold: #f5e6b3;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* LOGO */
+        .logo {
+            height: 120px;
+        }
+
+        /* CENTER NAV */
+        .nav-center {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            font-weight: 500;
+            color: var(--dark-blue);
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-center a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0%;
+            height: 2px;
+            background: var(--gold);
+            transition: 0.3s ease;
+        }
+
+        .nav-center a:hover {
+            color: var(--gold);
+        }
+
+        .nav-center a:hover::after {
+            width: 100%;
+        }
+
+        .icon {
+            font-size: 18px;
+        }
+
+        /* DROPDOWN */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .arrow {
+            transition: 0.3s ease;
+        }
+
+        /* MEGA MENU */
+        .mega-menu {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 520px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: 0.3s ease;
+            z-index: 999;
+        }
+
+        /* SHOW ON HOVER */
+        .dropdown:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* CLICK SUPPORT */
+        .dropdown.active .mega-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .mega-left {
+            width: 60%;
+        }
+
+        .mega-left h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-blue);
+        }
+
+        .mega-left p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .mega-left a {
+            color: var(--gold);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .mega-right img {
+            width: 140px;
+            border-radius: 10px;
+        }
+
+        /* RIGHT BUTTONS */
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .signup-btn {
+            padding: 8px 14px;
+            background: var(--gold);
+            color: var(--dark-blue);
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-btn {
+            padding: 8px 14px;
+            border: 1px solid var(--gold);
+            color: var(--dark-blue);
+            border-radius: 20px;
+            text-decoration: none;
+        }
+
+        /* HERO */
+        .home-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .home-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: var(--dark-blue);
+        }
+
+        .home-container p {
+            color: #666;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* LOADER */
+#page-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+    </style>
+</head>
+
+<body>
+    <!-- LOADER -->
+<div id="page-loader">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+    <div class="loader-bar"></div>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="nav-left">
+        <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
+    </div>
+
+    <div class="nav-center">
+
+        <a href="{% url 'Home' %}">Home</a>
+
+        <!-- STUDENTS -->
+        <div class="dropdown">
+            <div class="dropdown-trigger">
+                For Students
+                <span class="material-icons icon arrow">expand_more</span>
+            </div>
+
+            <div class="mega-menu">
+                <div class="mega-left">
+                    <h3>Student Living Made Easy</h3>
+                    <p>Find safe and affordable accommodation near your campus in Qwaqwa.</p>
+                    <a href="#">Explore →</a>
+                </div>
+                <div class="mega-right">
+                    <img src="{% static 'images/students-dropdown.png' %}">
+                </div>
+            </div>
+        </div>
+
+        <!-- BUSINESS -->
+        <div class="dropdown">
+            <div class="dropdown-trigger">
+                For Business
+                <span class="material-icons icon arrow">expand_more</span>
+            </div>
+
+            <div class="mega-menu">
+                <div class="mega-left">
+                    <h3>List Your Property</h3>
+                    <p>Reach thousands of students looking for accommodation in Qwaqwa.</p>
+                    <a href="#">Start Listing →</a>
+                </div>
+                <div class="mega-right">
+                    <img src="{% static 'images/business-dropdown.png' %}">
+                </div>
+            </div>
+        </div>
+
+        <a href="#">Listings</a>
+        <a href="#">About</a>
+
+    </div>
+
+    <div class="nav-right">
+        <a href="{% url 'Register' %}" class="signup-btn">Sign Up</a>
+        <a href="{% url 'Login' %}" class="login-btn">Login</a>
+    </div>
+
+</div>
+
+<!-- HERO -->
+<div class="home-container">
+    <h1>Welcome to Lehae</h1>
+    <p>Your trusted student accommodation platform</p>
+</div>
+
+<script>
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        document.getElementById("page-loader").style.display = "none";
+    }, 1000); // 3 seconds fixed loader
+});
+</script>
+
+<!-- JS -->
+<script>
+document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
+    trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.parentElement.classList.toggle('active');
+    });
+});
+</script>
+
+</body>
+</html>

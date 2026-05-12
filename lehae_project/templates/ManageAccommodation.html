@@ -1,0 +1,779 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Accommodation Management</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+    :root {
+        --dark-blue: #080144;
+        --gold: #d4af37;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: #f7f7f7;
+    }
+
+    /* LOADER */
+#page-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+
+/* ===================== */
+/* 🔝 TOP HEADER */
+/* ===================== */
+.top-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* must be high */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    backdrop-filter: blur(10px);
+}
+
+/* LOGO */
+.logo {
+    height: 100px;
+}
+
+/* RIGHT ICONS */
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ICON */
+.icon-btnn {
+    font-size: 22px !important;  /* force override */
+    color: var(--dark-blue);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* WRAPPER */
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* TOOLTIP */
+.tooltip {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+
+    background: var(--dark-blue);
+    color: white;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.25s ease;
+
+    pointer-events: none;
+}
+
+/* little arrow */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--dark-blue) transparent;
+}
+
+/* SHOW ON HOVER */
+.icon-wrapper:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* USER */
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* DROPDOWN */
+/* USER BOX WRAPPER */
+.user-box {
+    position: relative;
+    cursor: pointer;
+}
+
+/* DROPDOWN CARD */
+.dropdown-card {
+    position: absolute;
+    top: 55px;
+    right: 0;
+
+    width: 240px;
+    background: white;
+
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+
+    z-index: 1000;
+}
+
+/* SHOW DROPDOWN */
+.user-box.active .dropdown-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* HEADER */
+.dropdown-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+}
+
+.dropdown-header strong {
+    display: block;
+    font-size: 14px;
+    color: var(--dark-blue);
+}
+
+.dropdown-header span {
+    font-size: 12px;
+    color: #777;
+}
+
+/* ITEMS */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #333;
+
+    transition: 0.2s ease;
+    text-decoration: none;
+}
+
+.dropdown-item .material-icons {
+    font-size: 20px;
+    color: #555;
+}
+
+/* HOVER */
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: var(--dark-blue);
+}
+
+/* LOGOUT */
+.logout {
+    border-top: 1px solid #eee;
+    color: #c0392b;
+}
+
+.logout:hover {
+    background: #fdecea;
+}
+
+/* ===================== */
+/* 🟡 LOWER NAVBAR */
+/* ===================== */
+.main-nav {
+    position: sticky;
+    top: 100px;
+    z-index: 999;
+
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+
+    background: var(--gold);
+    padding: 16px 0;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* NAV ITEM WRAPPER */
+.nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+/* TEXT */
+.nav-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* underline animation */
+.nav-title::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--dark-blue);
+    transition: 0.3s ease;
+}
+
+.nav-item:hover .nav-title::after {
+    width: 100%;
+}
+
+/* hover lift */
+.nav-item:hover {
+    transform: translateY(-2px);
+}
+
+/* ICON */
+.material-icons {
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+
+/* rotate arrow */
+.nav-item:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* ===================== */
+/* 🔽 DROPDOWN */
+/* ===================== */
+.dropdown {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+
+     min-width: 260px;   /* ⬅️ increase width */
+    width: max-content; /* ⬅️ auto fit content */
+    background: white;
+
+    border-radius: 12px;
+    padding: 8px 0;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+/* show dropdown */
+.nav-item:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* dropdown links */
+.dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 18px;
+
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+    white-space: nowrap; /* ⬅️ THIS is the key fix */
+
+    transition: 0.2s ease;
+}
+
+/* icon inside dropdown */
+.dropdown a .material-icons {
+    font-size: 20px;
+    color: var(--dark-blue);
+}
+
+/* hover effect */
+.dropdown a:hover {
+    background: #f5f7fa;
+    padding-left: 22px;
+}
+
+.sub-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 18px; /* more space between items */
+
+    padding: 22px 50px; /* BIGGER vertical + horizontal space */
+
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+/* BACK BUTTON */
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    text-decoration: none;
+    color: #b88a00;
+    font-weight: 500;
+
+    transition: 0.2s ease;
+}
+
+.back-link .material-icons {
+    font-size: 20px;
+}
+
+.back-link:hover {
+    opacity: 0.7;
+}
+
+/* DIVIDER BETWEEN BACK AND BREADCRUMB */
+.nav-divider {
+    color: #bbb;
+    font-size: 18px;
+    margin: 0 6px;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 14px;
+    color: #666;
+}
+
+.home-link {
+    display: flex;
+    align-items: center;
+    color: #999;
+    text-decoration: none;
+}
+
+.home-link .material-icons {
+    font-size: 18px;
+}
+
+.crumb-separator {
+    font-size: 16px;
+    color: #999;
+}
+
+.current {
+    color: #b88a00;
+    font-weight: 600;
+}
+
+
+.page-header {
+    margin: 40px 40px 25px;
+}
+
+.page-title {
+    font-size: 34px; /* bigger impact */
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+    font-size: 17px; /* increased */
+    color: #666;
+    max-width: 750px;
+    line-height: 1.6;
+}
+
+/* FILTER BAR */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin: 25px 40px;
+    padding: 14px 0;
+
+    background: transparent; /* remove box feel */
+    border: none;
+}
+
+.filter-bar label {
+    font-size: 15px;
+    color: #333;
+    font-weight: 600;
+}
+
+.filter-bar select {
+    padding: 8px 6px;
+
+    font-size: 15px;
+
+    border: none;
+    border-bottom: 2px solid #ddd;
+
+    background: transparent;
+
+    outline: none;
+    cursor: pointer;
+
+    min-width: 180px;
+
+    transition: 0.2s ease;
+}
+
+/* hover + focus effect */
+.filter-bar select:focus {
+    border-bottom: 2px solid var(--dark-blue);
+}
+
+
+/* CONTENT AREA */
+.content-area {
+    margin: 30px 40px;
+}
+
+/* PLACEHOLDER CARD */
+.placeholder-card {
+    padding: 50px;
+    text-align: center;
+
+    background: #fff;
+    border: 1px dashed #e0e0e0;
+    border-radius: 12px;
+
+    color: #888;
+    font-size: 15px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+</style>
+
+</head>
+<body>
+    <!-- LOADER -->
+<div id="page-loader">
+    <div>
+        <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+        <div class="loader-bar"></div>
+    </div>
+</div>
+    
+
+<!-- 🔝 TOP HEADER -->
+<div class="top-header">
+
+    <!-- LOGO -->
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
+
+    <!-- RIGHT SIDE -->
+    <div class="top-right">
+
+        <div class="icon-wrapper">
+    <span class="material-icons icon-btnn">search</span>
+    <div class="tooltip">Search for information</div>
+</div>
+
+<div class="icon-wrapper">
+    <span class="material-icons icon-btnn">chat</span>
+    <div class="tooltip">Chat with merchant</div>
+</div>
+
+<div class="icon-wrapper">
+    <span class="material-icons icon-btnn">notifications</span>
+    <div class="tooltip">View notifications</div>
+</div>
+
+        <!-- USER -->
+        <div class="user-box" onclick="toggleUserMenu(this)">
+            <div class="user-avatar">
+                {{ request.user.first_name|slice:":1" }}
+            </div>
+            <span style="font-weight: bold;">{{ request.user.first_name }}</span>
+            <span class="material-icons">expand_more</span>
+              <!-- DROPDOWN CONTENT -->
+    <div class="dropdown-card">
+
+        <!-- HEADER -->
+           <div class="dropdown-header">
+            <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong>
+            <span>Student profile</span>
+        </div>
+
+        <!-- MENU -->
+        <a href="{% url 'StudentProfilePage' %}"     class="dropdown-item">
+            <span class="material-icons">person</span>
+            My profile
+        </a>
+
+       <a href="{% url 'ManageAccommodation' %}" class="dropdown-item">
+    <span class="material-icons">home</span>
+    My accommodation
+</a>
+
+        <div class="dropdown-item logout">
+            <span class="material-icons">logout</span>
+            Logout
+        </div>
+
+    </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="main-nav">
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            My Accommodation
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="{% url 'FindAccommodation' %}"><span class="material-icons">search</span> Find Accommodations</a>
+            <a href="{% url 'ManageAccommodation' %}" class="dropdown-item">
+    <span class="material-icons">home</span>
+    Manage Accommodation
+</a>
+            <a href="#"><span class="material-icons">report_problem</span> Log Disputes</a>
+            <a href="#"><span class="material-icons">build</span> Maintenance Requests</a>
+            
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            Payments
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="#"><span class="material-icons">receipt</span> History</a>
+            <a href="#"><span class="material-icons">credit_card</span> Pay Now</a>
+            <a href="#"><span class="material-icons">account_balance_wallet</span> Wallet</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            Explore
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="#"><span class="material-icons">search</span> Find Places</a>
+            <a href="#"><span class="material-icons">location_on</span> Nearby</a>
+            <a href="#"><span class="material-icons">star</span> Featured</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-title">
+            
+            Support
+            <span class="material-icons dropdown-icon">expand_more</span>
+        </div>
+
+        <div class="dropdown">
+            <a href="#"><span class="material-icons">help</span> Help Center</a>
+            <a href="#"><span class="material-icons">chat</span> Chat</a>
+            <a href="#"><span class="material-icons">report_problem</span> Report</a>
+        </div>
+    </div>
+
+</div>
+
+<div class="sub-nav">
+
+    <!-- BACK BUTTON -->
+    <a href="{% url 'LehaeMainPage' %}" class="back-link">
+        <span class="material-icons">arrow_back</span>
+        Back
+    </a>
+
+    <!-- DIVIDER -->
+    <span class="nav-divider">|</span>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+
+        <a href="{% url 'LehaeMainPage' %}" class="home-link">
+            <span class="material-icons">home</span>
+        </a>
+
+        <span class="crumb-separator">›</span>
+
+        <span class="current">Manage Accommodation</span>
+    </div>
+
+</div>
+
+
+
+<div class="page-header">
+
+    <h1 class="page-title">Manage Accommodation Applications</h1>
+
+    <p class="page-subtitle">
+        Review accommodation applications, submit maintenance requests, and log disputes 
+    </p>
+
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+
+    <label for="statusFilter">Filter by status:</label>
+
+    <select id="statusFilter" name="status">
+        <option value="all">All</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="in_review">In Review</option>
+    </select>
+
+</div>
+
+<!-- CONTENT AREA (for future applications list/cards) -->
+<div class="content-area">
+
+    <!-- Example placeholder card -->
+    <div class="placeholder-card">
+        <p>No applications loaded yet...</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+    <script>
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        document.getElementById("page-loader").style.display = "none";
+    }, 1000);
+});
+</script>
+
+<script>
+function toggleUserMenu(element) {
+    element.classList.toggle("active");
+}
+
+/* close dropdown when clicking outside */
+document.addEventListener("click", function(e) {
+    const userBox = document.querySelector(".user-box");
+    if (!userBox.contains(e.target)) {
+        userBox.classList.remove("active");
+    }
+});
+</script>
+    
+</body>
+</html>

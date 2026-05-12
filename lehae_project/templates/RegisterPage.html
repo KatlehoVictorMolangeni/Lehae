@@ -1,0 +1,501 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lehae Security - Create Account</title>
+ 
+<link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+:root {
+    --dark-blue: #080144;
+    --gold: #d4af37;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: white;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    height: 150px;
+}
+
+.nav-right {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login {
+    border: 1px solid var(--gold);
+    color: var(--dark-blue);
+}
+
+.signup {
+    background: var(--gold);
+    color: var(--dark-blue);
+}
+
+/* PAGE */
+.page {
+    max-width: 520px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* HEADER */
+.logo-center {
+    display: block;
+    margin: 0 auto;
+    height: 90px;
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    color: var(--dark-blue);
+
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    margin: 10px 0 30px;
+
+    /* subtle luxury emphasis */
+    text-transform: capitalize;
+    position: relative;
+}
+
+/* optional underline accent */
+h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* FIELD GROUP */
+.field {
+    margin-bottom: 25px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-blue);
+    margin-bottom: 5px;
+}
+
+/* UNDERLINE INPUT STYLE */
+.input-line {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding: 8px 0;
+    gap: 10px;
+}
+
+.input-line input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    background: transparent;
+}
+
+.input-line:focus-within {
+    border-bottom: 2px solid var(--gold);
+}
+
+/* ID SELECT */
+.id-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+select {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-weight: 500;
+    color: var(--dark-blue);
+}
+
+.terms {
+    margin: 22px 0;
+}
+
+/* makes checkbox + text align nicely */
+.terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    font-size: 13px;
+    color: #333;
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+/* checkbox styling */
+.terms-label input {
+    margin-top: 3px;
+    transform: scale(1.1);
+    accent-color: var(--gold);
+}
+
+/* links inside terms */
+.terms-label a {
+    color: var(--dark-blue);
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+}
+
+/* subtle underline animation */
+.terms-label a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background: var(--gold);
+    transition: 0.3s ease;
+}
+
+.terms-label a:hover::after {
+    width: 100%;
+}
+
+.terms-label a:hover {
+    color: var(--gold);
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--gold);
+    border: none;
+    border-radius: 80px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* FOOTER */
+.account {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 30px;
+}
+
+.account a {
+    color: var(--dark-blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer {
+    text-align: center;
+    font-size: 13px;
+
+    margin-top: 40px;
+    padding: 20px 0;
+
+    border-top: 1px solid #e5e5e5;
+
+    color: #666;
+
+    /* forces full screen width line */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+.footer a {
+    color: var(--dark-blue);
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--gold);
+}
+
+/* LOADER */
+#page-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.toggle-password {
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+}
+
+.disabled-btn {
+    width: 100%;
+    padding: 12px;
+     border-radius: 80px;
+    border: none;
+    font-weight: 800;
+
+    background: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+.enabled-btn {
+    background: var(--gold);
+    color: var(--dark-blue);
+    cursor: pointer;
+}
+
+.required {
+    color: var(--gold);
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="page-loader">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+    <div class="loader-bar"></div>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
+
+    <div class="nav-right">
+        <a href="{% url 'Login' %}" class="nav-btn login">Login</a>
+        <a href="{% url 'Register' %}" class="nav-btn signup">Sign Up</a>
+    </div>
+</div>
+
+<form method="POST">
+{% csrf_token %}
+
+<div class="page">
+
+    <img src="{% static 'images/Lehae-head-logo.png' %}" class="logo-center">
+
+    <h2>Create Your Lehae Account</h2>
+
+    <!-- NAME -->
+    <div class="field">
+        <div class="label">Name <span class="required">*</span></div>
+        <div class="input-line">
+            <input type="text" name="first_name" required>
+        </div>
+    </div>
+
+    <!-- SURNAME -->
+    <div class="field">
+        <div class="label">Surname <span class="required">*</span></div>
+        <div class="input-line">
+            <input type="text" name="last_name" required>
+        </div>
+    </div>
+
+    <!-- ID TYPE + NUMBER -->
+    <div class="field">
+        <div class="label">Identity Number <span class="required">*</span></div>
+        <div class="input-line id-box">
+            <select name="id_type">
+                <option value="ID">ID</option>
+                <option value="Passport">Passport</option>
+            </select>
+            <input type="text" name="id_number" required>
+        </div>
+    </div>
+
+    <!-- PHONE -->
+    <div class="field">
+        <div class="label">Cell phone <span class="required">*</span></div>
+        <div class="input-line">
+            <input type="text" name="phone" placeholder="079xxxxxxx" required>
+        </div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="field">
+        <div class="label">Email address <span class="required">*</span></div>
+        <div class="input-line">
+            <input type="email" name="email" required>
+        </div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="field">
+        <div class="label">Password <span class="required">*</span></div>
+        <div class="input-line">
+            <input type="password" name="password" id="password" required>
+            <span class="material-icons toggle-password" onclick="togglePassword('password', this)">
+                visibility_on
+            </span>
+        </div>
+    </div>
+
+    <!-- CONFIRM -->
+    <div class="field">
+        <div class="label">Confirm password <span class="required">*</span></div>
+        <div class="input-line">
+            <input type="password" name="confirm_password" id="confirm_password" required>
+            <span class="material-icons toggle-password" onclick="togglePassword('confirm_password', this)">
+                visibility_on
+            </span>
+        </div>
+    </div>
+
+    <!-- TERMS -->
+    <div class="terms">
+        <label class="terms-label">
+            <input type="checkbox" id="termsCheck" onchange="toggleButton()" required>
+            <span>
+                I agree to Lehae’s
+                <a href="#">Terms of Service</a>
+                and
+                <a href="#">Privacy Policy</a>
+                <span class="required">*</span>
+            </span>
+        </label>
+    </div>
+
+    <!-- BUTTON -->
+    <button type="submit" id="signupBtn" disabled class="disabled-btn">
+        Sign Up
+    </button>
+
+</div>
+
+</form>
+
+    <!-- LOGIN -->
+    <div class="account">
+        Already have a Lehae account? <a href="{% url 'Login' %}">Log in</a>
+    </div>
+
+    <div class="footer">
+        © 2026 Lehae (Pty) Ltd. All rights reserved
+    </div>
+
+</div>
+
+<script>
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        document.getElementById("page-loader").style.display = "none";
+    }, 1000); // 3 seconds fixed loader
+});
+</script>
+
+<script>
+function togglePassword(fieldId, icon) {
+    const input = document.getElementById(fieldId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.innerText = "visibility";
+    } else {
+        input.type = "password";
+        icon.innerText = "visibility_off";
+    }
+}
+
+function toggleButton() {
+    const checkbox = document.getElementById("termsCheck");
+    const button = document.getElementById("signupBtn");
+
+    if (checkbox.checked) {
+        button.disabled = false;
+        button.classList.remove("disabled-btn");
+        button.classList.add("enabled-btn");
+    } else {
+        button.disabled = true;
+        button.classList.add("disabled-btn");
+        button.classList.remove("enabled-btn");
+    }
+}
+</script>
+
+</body>
+</html>
