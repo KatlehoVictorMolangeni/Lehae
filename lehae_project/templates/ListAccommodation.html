@@ -1,0 +1,602 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Accommodation | Lehae</title>
+
+<link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+:root {
+    --dark: #080144;
+    --gold: #d4af37;
+    --bg: #f6f7fb;
+    --text: #222;
+    --muted: #666;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* LOADER */
+#page-loader {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* HERO */
+.hero {
+    height: 260px;
+    position: relative;
+    background-image: url("{% static 'images/Lehae-List-Accommodation.png' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 1, 68, 0.55);
+}
+
+/* MAIN CONTAINER */
+.container {
+    max-width: 1150px;
+    margin: -80px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* PROFILE HEADER */
+.profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+.profile-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 85px;
+    height: 85px;
+    border-radius: 14px;
+    object-fit: cover;
+}
+
+h1 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--dark);
+    font-size: 34px;
+}
+
+.sub {
+    font-size: 13px;
+    color: #666;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    background: var(--dark);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 12px;
+
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* FORM CARD */
+.form-card {
+    margin-top: 25px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+}
+
+.page-title {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    color: var(--dark);
+    text-align: center;
+}
+
+.page-subtitle {
+    margin: 12px auto 35px;
+    text-align: center;
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.7;
+}
+
+.section-title {
+    margin: 35px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dark);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.field {
+    margin-bottom: 4px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.required {
+    color: var(--gold);
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border-bottom: 2px solid #ddd;
+    padding: 10px 0;
+}
+
+.input-line:focus-within {
+    border-bottom-color: var(--gold);
+}
+
+.input-line input,
+.input-line select,
+.input-line textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+}
+
+textarea {
+    min-height: 110px;
+}
+
+/* CHECKBOX GRID */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px 14px;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 12px;
+}
+
+.checkbox-item input {
+    accent-color: var(--gold);
+    transform: scale(1.05);
+}
+
+/* FILE INPUT */
+.file-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+/* TERMS */
+.terms {
+    margin-top: 30px;
+}
+
+.terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.6;
+    font-size: 13px;
+    color: #444;
+}
+
+.terms-label input {
+    margin-top: 3px;
+    accent-color: var(--gold);
+}
+
+.terms-label a {
+    color: var(--dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* BUTTONS */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.secondary-btn,
+.primary-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 14px 24px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.secondary-btn {
+    background: #f1f1f1;
+    color: #444;
+}
+
+.primary-btn {
+    background: var(--gold);
+    color: var(--dark);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .profile {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="page-loader">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+    <div class="loader-bar"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero"></div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="profile">
+        <div class="profile-left">
+            <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
+            <div>
+                <h1>{{ merchant.business_name }}</h1>
+                <div class="sub">{{ merchant.city }} • {{ merchant.province }}</div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{% url 'MerchantDashboard' %}" class="cta-btn">
+                <span class="material-icons">arrow_back</span>
+                <span>Back to Dashboard</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+
+        <h2 class="page-title">List Your Accommodation</h2>
+        <p class="page-subtitle">
+            Create a trusted student accommodation listing and reach students looking for verified housing.
+        </p>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- BASIC INFORMATION -->
+            <div class="section-title">Basic Information</div>
+            <div class="form-grid">
+                <div class="field">
+                    <div class="label">Property Title <span class="required">*</span></div>
+                    <div class="input-line"><input type="text" name="title" required></div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Accommodation Type <span class="required">*</span></div>
+                    <div class="input-line">
+                        <select name="accommodation_type" required>
+                            <option value="">Select type</option>
+                            <option>Single Room</option>
+                            <option>Sharing</option>
+                            <option>House</option>
+                            <option>Hostel</option>
+                            <option>Rooms</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field full">
+                    <div class="label">Property Description <span class="required">*</span></div>
+                    <div class="input-line">
+                        <textarea name="description" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOCATION -->
+            <div class="section-title">Location</div>
+            <div class="form-grid">
+                <div class="field">
+                    <div class="label">City <span class="required">*</span></div>
+                    <div class="input-line"><input type="text" name="city" required></div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Province <span class="required">*</span></div>
+                    <div class="input-line"><input type="text" name="province" required></div>
+                </div>
+
+                <div class="field full">
+                    <div class="label">Full Physical Address <span class="required">*</span></div>
+                    <div class="input-line"><textarea name="address" required></textarea></div>
+                </div>
+            </div>
+
+           <!-- ACCREDITATION -->
+<div class="section-title">Accreditation</div>
+<div class="checkbox-grid">
+    {% for acc in accreditations %}
+        <label class="checkbox-item">
+            <input type="checkbox"
+                   name="accreditation"
+                   value="{{ acc.id }}">
+            {{ acc.name }}
+        </label>
+    {% endfor %}
+</div>
+
+           <!-- CAMPUS -->
+<div class="section-title">Campus Availability</div>
+<div class="checkbox-grid">
+    {% for campus in campuses %}
+        <label class="checkbox-item">
+            <input type="checkbox"
+                   name="campuses"
+                   value="{{ campus.id }}">
+            {{ campus.name }}
+        </label>
+    {% endfor %}
+</div>
+
+            <!-- CAPACITY & PRICING -->
+            <div class="section-title">Capacity & Pricing</div>
+            <div class="form-grid">
+                <div class="field">
+                    <div class="label">Number of Rooms <span class="required">*</span></div>
+                    <div class="input-line"><input type="number" name="number_of_rooms" min="1" required></div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Beds Available <span class="required">*</span></div>
+                    <div class="input-line"><input type="number" name="beds_available" min="1" required></div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Monthly Rent (R) <span class="required">*</span></div>
+                    <div class="input-line"><input type="number" step="0.01" name="monthly_rent" required></div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Deposit Amount (R)</div>
+                    <div class="input-line"><input type="number" step="0.01" name="deposit_amount"></div>
+                </div>
+            </div>
+
+          <!-- AMENITIES -->
+<div class="section-title">Amenities</div>
+<div class="checkbox-grid">
+    {% for amenity in amenities %}
+        <label class="checkbox-item">
+            <input type="checkbox"
+                   name="amenities"
+                   value="{{ amenity.id }}">
+            {{ amenity.name }}
+        </label>
+    {% endfor %}
+</div>
+
+            <!-- MEDIA -->
+            <div class="section-title">Media</div>
+            <div class="form-grid">
+                <div class="field">
+                    <div class="label">Main Cover Image <span class="required">*</span></div>
+                    <input type="file" name="cover_image" class="file-input" accept="image/*" required>
+                </div>
+
+                <div class="field">
+                    <div class="label">Additional Property Images</div>
+                    <input type="file" name="gallery_images" class="file-input" accept="image/*" multiple>
+                </div>
+            </div>
+
+            <!-- DOCUMENTS -->
+            <div class="section-title">Documents</div>
+            <div class="form-grid">
+                <div class="field">
+                    <div class="label">Proof of Accreditation</div>
+                    <input type="file" name="proof_of_accreditation" class="file-input">
+                </div>
+
+                <div class="field">
+                    <div class="label">Rules / House Policy</div>
+                    <input type="file" name="house_policy" class="file-input">
+                </div>
+            </div>
+
+            <!-- AVAILABILITY -->
+            <div class="section-title">Availability</div>
+            <div class="form-grid">
+                <div class="field">
+                    <div class="label">Available From <span class="required">*</span></div>
+                    <div class="input-line"><input type="date" name="available_from" required></div>
+                </div>
+
+                <div class="field">
+                    <div class="label">Currently Available <span class="required">*</span></div>
+                    <div class="input-line">
+                        <select name="is_available" required>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TERMS -->
+            <div class="terms">
+                <label class="terms-label">
+                    <input type="checkbox" required>
+                    <span>
+                        I confirm that all information provided is accurate and I agree to
+                        <a href="#">Lehae's Terms and Privacy Policy</a>.
+                    </span>
+                </label>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="form-actions">
+                <button type="button" class="secondary-btn">Save Draft</button>
+                <button type="submit" class="primary-btn">Publish Accommodation</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function () {
+    setTimeout(() => {
+        document.getElementById('page-loader').style.display = 'none';
+    }, 800);
+});
+</script>
+
+</body>
+</html>
+

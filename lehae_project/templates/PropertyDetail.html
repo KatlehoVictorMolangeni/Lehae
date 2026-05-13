@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Accommodation | Find Your Perfect Stay</title>
+    <title>{{ property.title }} | Lehae Accommodation</title>
     <link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
+
     :root {
         --dark-blue: #080144;
         --gold: #d4af37;
@@ -394,457 +395,473 @@
 }
 
 
+       /* ========================================= */
+/* PROPERTY DETAIL SECTION */
+/* ========================================= */
 
-/* Hero section */
-
-.search-hero {
-    background: #f3f3f3;
-    padding: 30px 50px;
-}
-
-/* ===================== */
-/* 🔍 TOP SEARCH */
-/* ===================== */
-.search-top {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.search-left {
-    flex: 1;
-}
-
-.search-left label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 6px;
-    display: block;
-}
-
-/* input */
-.search-input {
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid #222;
-    padding: 10px 0;
-}
-
-.search-input input {
-    border: none;
-    outline: none;
-    background: transparent;
-    width: 100%;
-    font-size: 16px;
-    margin-left: 10px;
-}
-
-/* button */
-.search-btn {
-    background: var(--gold);
-    border: none;
-    padding: 12px 28px;
-    border-radius: 30px;
-    font-weight: 600;
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* ===================== */
-/* 🎛 FILTERS */
-/* ===================== */
-.filters-row {
+.property-detail {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 25px;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 40px;
+    padding: 50px 60px;
+    max-width: 1500px;
+    margin: auto;
+    align-items: start;
 }
 
-/* second row special layout */
-.filters-row:last-of-type {
-    grid-template-columns: repeat(5, 1fr);
-    align-items: end;
-}
+/* ========================================= */
+/* IMAGE SECTION */
+/* ========================================= */
 
-/* filter */
-.filter {
-    display: flex;
-    flex-direction: column;
-}
-
-.filter label {
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 6px;
-}
-
-/* select underline style */
-.filter select {
-    border: none;
-    border-bottom: 2px solid #222;
-    padding: 8px 0;
-    background: transparent;
-    font-size: 14px;
-    outline: none;
-}
-
-/* more filters button */
-.more-filters {
-    justify-self: end;
-
-    border: 1px solid var(--gold);
-    background: transparent;
-
-    padding: 10px 18px;
-    border-radius: 25px;
-
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    cursor: pointer;
-}
-
-/* clear */
-.clear-all {
-    display: block;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #555;
-    cursor: pointer;
-}
-
-.date-input {
-    border: none;
-    border-bottom: 2px solid #222;
-    padding: 8px 0;
-    background: transparent;
-    font-size: 14px;
-    outline: none;
-    font-family: 'Inter', sans-serif;
-}
-
-
-
-.results-section {
-    padding: 40px 50px;
-}
-
-/* HEADER */
-.results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.results-header h2 {
-    font-size: 32px;
-    color: #111;
-}
-
-/* BUTTON */
-.my-properties-btn {
-    background: var(--gold);
-    border: none;
-    padding: 10px 18px;
-    border-radius: 25px;
-    font-weight: 600;
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* GRID */
-.results-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 28px;
-}
-
-/* CARD */
-.property-card {
+.image-section {
     background: white;
-    border-radius: 14px;
+    border-radius: 24px;
     overflow: hidden;
-
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    padding: 18px;
 }
 
-.property-card:hover {
-    transform: translateY(-5px);
-}
-
-/* IMAGE */
-.property-card img {
+.main-image {
     width: 100%;
-    height: 180px;
+    height: 520px;
     object-fit: cover;
+    border-radius: 18px;
+    transition: 0.4s ease;
 }
 
-/* CONTENT */
-.card-content {
-    padding: 15px;
+.main-image:hover {
+    transform: scale(1.01);
 }
 
-.card-content h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-}
+/* GALLERY */
 
-/* LOCATION */
-.location {
-    font-size: 13px;
-    color: #666;
-
+.gallery {
     display: flex;
-    align-items: center;
-    gap: 5px;
+    gap: 12px;
+    margin-top: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
 
-/* PRICE */
-.price {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 10px 0;
-    color: var(--dark-blue);
+.gallery::-webkit-scrollbar {
+    height: 6px;
 }
 
-/* TAGS */
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
+.gallery::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 20px;
 }
 
-.tags span {
-    background: #f1f1f1;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 6px;
-}
-
-/* BUTTON */
-/* BUTTON WRAPPER SPACING */
-.view-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    width: auto;              /* ❌ remove full width */
-    min-width: 140px;         /* keeps it readable */
-    
-    margin-top: 14px;
-    padding: 10px 16px;       /* smaller + tighter */
-
-    border: none;
-    background: var(--gold);
-    border-radius: 8px;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    text-decoration: none;
-    color: #111;
-
+.gallery img {
+    width: 110px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.25s ease;
-
-    position: relative;
-    overflow: hidden;
-}
-
-/* HOVER EFFECT */
-.view-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-}
-
-/* CLICK EFFECT */
-.view-btn:active {
-    transform: translateY(0px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.08);
-}
-.view-btn .material-icons {
-    font-size: 18px;
-    margin-left: 6px;
-    transition: transform 0.2s ease;
-}
-
-.view-btn:hover .material-icons {
-    transform: translateX(3px);
-}
-
-
-.required {
-    color: var(--gold);
-}
-
-/* TEXT / NUMBER / DATE INPUTS MATCH SELECT STYLE */
-.filter input[type="number"],
-.filter input[type="date"] {
-    border: none;
-    border-bottom: 2px solid #222;
-    padding: 8px 0;
-    background: transparent;
-    font-size: 14px;
-    outline: none;
-    font-family: 'Inter', sans-serif;
-    width: 100%;
-}
-
-/* focus state */
-.filter input:focus {
-    border-bottom: 2px solid var(--gold);
-}
-
-
-/* IMAGE WRAPPER */
-.image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-}
-
-.image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* OVERLAY BADGES (ACCOMMODATION TYPE) */
-.overlay-badges {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.overlay-badge {
-    background: rgba(0,0,0,0.65);
-    color: #fff;
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
-}
-
-/* CAMPUS TAG (TOP RIGHT) */
-.campus-tag {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-
-    background: var(--gold);
-    color: #000;
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 20px;
-    font-weight: 600;
-}
-
-/* THUMBNAIL GALLERY */
-.thumb-gallery {
-    display: flex;
-    gap: 5px;
-    margin: 10px 0;
-}
-
-.thumb-gallery img {
-    width: 33%;
-    height: 45px;
-    object-fit: cover;
-    border-radius: 6px;
-    transition: 0.3s;
-}
-
-.thumb-gallery img:hover {
-    transform: scale(1.05);
-}
-
-/* CARD HOVER IMPROVEMENT */
-/* CARD */
-.property-card {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     transition: 0.3s ease;
+    border: 3px solid transparent;
 }
 
-.property-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+.gallery img:hover {
+    transform: translateY(-3px);
+    border-color: var(--gold);
 }
 
-/* IMAGE */
-.image-wrapper {
-    height: 220px;
-}
+/* ========================================= */
+/* INFO SECTION */
+/* ========================================= */
 
-/* CONTENT SPACING FIX */
-.card-content {
-    padding: 18px 20px;
+.info-section {
+    background: white;
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 160px;
 }
 
 /* TITLE */
-.card-content h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    line-height: 1.3;
-}
 
-/* LOCATION */
-.location {
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 8px;
-}
-
-/* PRICE (MAKE IT MORE PROMINENT) */
-.price {
-    font-size: 18px;
-    font-weight: 700;
+.info-section h1 {
+    font-size: 38px;
+    line-height: 1.2;
     color: var(--dark-blue);
-    margin: 12px 0;
-}
-
-/* SPACING BETWEEN ELEMENTS */
-.card-content > * {
     margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
 }
 
-.stat {
+/* PRICE */
+
+.price {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 20px;
+}
+
+.price span {
+    font-size: 16px;
+    color: #777;
+    font-weight: 400;
+}
+
+/* DESCRIPTION */
+
+.desc {
+    color: #666;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 28px;
+}
+
+/* LOCATION BLOCK */
+
+.block {
     display: flex;
     align-items: center;
+    gap: 10px;
+
+    background: #f8f9fc;
+    padding: 16px 18px;
+    border-radius: 14px;
+
+    margin-bottom: 25px;
+
+    color: #444;
+    font-size: 15px;
+}
+
+.block .material-icons {
+    color: var(--gold);
+    font-size: 22px;
+}
+
+/* ========================================= */
+/* PROPERTY STATS */
+/* ========================================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff, #f8f9ff);
+    border: 1px solid #edf0f5;
+    border-radius: 18px;
+    padding: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+}
+
+.card .material-icons {
+    background: rgba(212,175,55,0.12);
+    color: var(--gold);
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 24px;
+}
+
+.card p {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+/* ========================================= */
+/* SECTION TITLES */
+/* ========================================= */
+
+.info-section h3 {
+    margin-top: 30px;
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: var(--dark-blue);
+}
+
+/* ========================================= */
+/* TAGS */
+/* ========================================= */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tags span {
+    background: #f5f6fa;
+    color: #444;
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.25s ease;
+    border: 1px solid #ececec;
+}
+
+.tags span:hover {
+    background: var(--dark-blue);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ========================================= */
+/* APPLY BUTTON */
+/* ========================================= */
+
+.apply-btn {
+    width: fit-content;
+    margin-top: 30px;
+
+    background: linear-gradient(
+        135deg,
+        var(--dark-blue),
+        #12026a
+    );
+
+    color: white;
+    border: none;
+
+    padding: 14px 26px;
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    text-decoration: none;
+
+    box-shadow: 0 8px 18px rgba(8,1,68,0.18);
+}
+
+
+
+.apply-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(8,1,68,0.25);
+}
+
+/* ========================================= */
+/* RESPONSIVE */
+/* ========================================= */
+
+@media(max-width: 1100px) {
+
+    .property-detail {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+    }
+
+    .info-section {
+        position: relative;
+        top: 0;
+    }
+
+    .main-image {
+        height: 380px;
+    }
+}
+
+@media(max-width: 700px) {
+
+    .info-section h1 {
+        font-size: 28px;
+    }
+
+    .price {
+        font-size: 24px;
+    }
+
+    .main-image {
+        height: 280px;
+    }
+
+    .gallery img {
+        width: 90px;
+        height: 70px;
+    }
+}
+
+
+/* ========================================= */
+/* IMAGE SLIDER */
+/* ========================================= */
+
+.main-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+/* MAIN IMAGE */
+
+.main-image {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    border-radius: 18px;
+    transition: 0.3s ease;
+}
+
+/* SLIDER BUTTONS */
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 5;
+
+    transition: 0.25s ease;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.slider-btn .material-icons {
+    font-size: 28px;
+    color: var(--dark-blue);
+}
+
+/* POSITIONS */
+
+.prev-btn {
+    left: 18px;
+}
+
+.next-btn {
+    right: 18px;
+}
+
+/* HOVER */
+
+.slider-btn:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.08);
+}
+
+/* MOBILE */
+
+@media(max-width: 700px) {
+
+    .slider-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .slider-btn .material-icons {
+        font-size: 24px;
+    }
+}
+
+/* AVAILABILITY */
+
+.availability-box {
+    display: flex;
+    flex-direction: column;
     gap: 6px;
+}
+
+.availability-box small {
+    color: #777;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 6px 12px;
+    border-radius: 30px;
 
     font-size: 13px;
-    color: #444;
+    font-weight: 600;
 
-    background: #f7f7f7;
-    padding: 6px 10px;
-    border-radius: 8px;
-
-    margin: 0;   /* 👈 IMPORTANT: removes default <p> spacing */
+    width: fit-content;
 }
-</style>
+
+/* GREEN */
+
+.available {
+    background: rgba(46, 204, 113, 0.12);
+    color: #1e8449;
+}
+
+/* RED */
+
+.unavailable {
+    background: rgba(231, 76, 60, 0.12);
+    color: #c0392b;
+}
+
+/* DOT */
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.apply-btn.disabled {
+    background: #c7c7c7;      /* soft grey */
+    color: #7a7a7a;           /* muted text */
+    pointer-events: none;     /* disables clicking */
+    cursor: not-allowed;      /* disabled cursor */
+    opacity: 0.8;
+    box-shadow: none;
+    filter: grayscale(30%);
+}
+
+
+
+.apply-btn.disabled:hover {
+    background: #c7c7c7;
+    color: #7a7a7a;
+}
+    </style>
 </head>
 <body>
 
-    <!-- LOADER -->
+
+
+  <!-- LOADER -->
 <div id="page-loader">
     <div>
         <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
@@ -984,197 +1001,155 @@
 
 
 
-<div class="search-hero">
-<form method="GET">
-    <!-- 🔍 TOP ROW -->
-   <!-- SEARCH -->
-<div class="search-top">
-
-    <div class="search-left">
-        <label>Search property</label>
-
-        <div class="search-input">
-            <span class="material-icons">search</span>
-            <input type="text" name="search" placeholder="Enter property name or address">
-        </div>
-    </div>
-
-    <button class="search-btn" type="submit">
-        Search
-        <span class="material-icons">search</span>
-    </button>
-
-</div>
-
-    <!-- 🎛 FILTER ROW 1 -->
-<!-- FILTER ROW 1 -->
-<div class="filters-row">
-
-    <!-- CAMPUS -->
-    <div class="filter">
-        <label>Institution</label>
-        <select name="campus">
-            <option value="">All institutions</option>
-            {% for campus in campuses %}
-                <option value="{{ campus.id }}">{{ campus.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <!-- PROPERTY TYPE -->
-    <div class="filter">
-        <label>Property type</label>
-        <select name="property_type">
-            <option value="">All types</option>
-            {% for key, value in properties.model.ACCOMMODATION_TYPES %}
-                <option value="{{ key }}">{{ value }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-</div>
-    
-
-  <!-- FILTER ROW 2 -->
-<div class="filters-row">
-
-    <!-- MIN PRICE -->
-    <div class="filter">
-        <label>Min price</label>
-        <input type="number" name="min_price" placeholder="R0">
-    </div>
-
-    <!-- MAX PRICE -->
-    <div class="filter">
-        <label>Max price</label>
-        <input type="number" name="max_price" placeholder="R5000">
-    </div>
-
-    <!-- ACCREDITATION -->
-    <div class="filter">
-        <label>Accreditation</label>
-        <select name="accreditation">
-            <option value="">All</option>
-            {% for acc in accreditations %}
-                <option value="{{ acc.id }}">{{ acc.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <!-- DATE -->
-    <div class="filter">
-        <label>Available from</label>
-        <input type="date" name="available_from">
-    </div>
-
-</div>
-
-</form>
 
 
 
-<div class="results-section">
 
-    <div class="results-header">
-        <h2>Accommodation results:</h2>
 
-        <button class="my-properties-btn">
-            <span class="material-icons">home</span>
-            My properties
+
+
+    <div class="property-detail">
+
+    <!-- IMAGE SECTION -->
+<div class="image-section">
+
+    <!-- MAIN IMAGE CONTAINER -->
+    <div class="main-image-wrapper">
+
+        <!-- PREVIOUS BUTTON -->
+        <button class="slider-btn prev-btn" onclick="prevImage()">
+            <span class="material-icons">chevron_left</span>
         </button>
-    </div>
 
-    <div class="results-grid">
+        <!-- MAIN IMAGE -->
+        <img class="main-image"
+             id="mainPropertyImage"
+             src="{{ property.cover_image.url }}">
 
-{% for property in properties %}
-
-<div class="property-card">
-
-    <!-- IMAGE WRAPPER -->
-    <div class="image-wrapper">
-
-        <img src="{{ property.cover_image.url }}" alt="{{ property.title }}">
-
-        <!-- ACCREDITATION OVERLAY -->
-        <div class="overlay-badges">
-            {% for acc in property.accreditation.all %}
-                <span class="overlay-badge">{{ acc.name }}</span>
-            {% endfor %}
-        </div>
-
-        <!-- OPTIONAL: CAMPUS TAG -->
-        <div class="campus-tag">
-            {% for campus in property.campuses.all %}
-                {{ campus.name }}
-            {% endfor %}
-        </div>
+        <!-- NEXT BUTTON -->
+        <button class="slider-btn next-btn" onclick="nextImage()">
+            <span class="material-icons">chevron_right</span>
+        </button>
 
     </div>
 
-    <!-- CONTENT -->
-    <div class="card-content">
+    <!-- GALLERY -->
+    <div class="gallery">
 
-    <!-- TITLE -->
-    <h3>{{property.merchant.business_name}} : {{ property.title }}</h3>
+        <img src="{{ property.cover_image.url }}"
+             onclick="changeImage(this.src)">
 
-    <!-- LOCATION -->
-    <p class="location">
-        <span class="material-icons">location_on</span>
-        {{ property.city }}, {{ property.province }}
-    </p>
-
-    <!-- PRICE -->
-    <p class="price">
-        R{{ property.monthly_rent }} / month
-    </p>
-
-    <!-- KEY STATS (NEW - MUCH CLEARER) -->
-    <div class="stats">
-
-    <p class="stat">
-        <span class="material-icons">bed</span>
-        {{ property.beds_available }} Beds
-    </p>
-
-    <p class="stat">
-        <span class="material-icons">meeting_room</span>
-        {{ property.number_of_rooms }} Rooms
-    </p>
-
-    {% if property.deposit_amount %}
-    <p class="stat">
-        <span class="material-icons">savings</span>
-        Deposit: R{{ property.deposit_amount }}
-    </p>
-    {% endif %}
-
-</div>
-
-    <!-- AMENITIES (CLEANER) -->
-    <div class="tags">
-        {% for amenity in property.amenities.all %}
-            <span>{{ amenity.name }}</span>
+        {% for img in property.gallery.all %}
+            <img src="{{ img.image.url }}"
+                 onclick="changeImage(this.src)">
         {% endfor %}
+
     </div>
 
-    <!-- BUTTON -->
-    <a href="{% url 'property_detail' property.id %}" class="view-btn">
-    View details
-    <span class="material-icons">arrow_forward</span>
-</a>
-
 </div>
 
+    <!-- INFO SECTION -->
+    <div class="info-section">
+
+        <h1>{{ property.title }}</h1>
+
+        <p class="price">
+    R{{ property.monthly_rent }}
+    <span>/ month</span>
+</p>
+
+        <p class="desc">{{ property.description }}</p>
+
+        <!-- LOCATION -->
+        <div class="block">
+            <span class="material-icons">location_on</span>
+            {{ property.address }}, {{ property.city }}, {{ property.province }}
+        </div>
+
+        <!-- DETAILS -->
+        <div class="grid">
+
+            <div class="card">
+                <span class="material-icons">bed</span>
+                <p>{{ property.beds_available }} Beds</p>
+            </div>
+
+            <div class="card">
+                <span class="material-icons">meeting_room</span>
+                <p>{{ property.number_of_rooms }} Rooms</p>
+            </div>
+
+            {% if property.deposit_amount %}
+            <div class="card">
+                <span class="material-icons">savings</span>
+                <p>Deposit: R{{ property.deposit_amount }}</p>
+            </div>
+            {% endif %}
+
+            <div class="card">
+    <span class="material-icons">meeting_room</span>
+
+    <div class="availability-box">
+
+        <small>Availability</small>
+
+        {% if property.is_available %}
+            <span class="status available">
+                <span class="dot"></span>
+                Available
+            </span>
+        {% else %}
+            <span class="status unavailable">
+                <span class="dot"></span>
+                Unavailable
+            </span>
+        {% endif %}
+
+    </div>
 </div>
 
-{% empty %}
-    <p>No accommodation found.</p>
-{% endfor %}
+        </div>
+
+        <!-- AMENITIES -->
+        <h3>Amenities</h3>
+        <div class="tags">
+            {% for amenity in property.amenities.all %}
+                <span>{{ amenity.name }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- ACCREDITATION -->
+        <h3>Accreditation</h3>
+        <div class="tags">
+            {% for acc in property.accreditation.all %}
+                <span>{{ acc.name }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- CAMPUSES -->
+        <h3>Nearby Campuses</h3>
+        <div class="tags">
+            {% for campus in property.campuses.all %}
+                <span>{{ campus.name }}</span>
+            {% endfor %}
+        </div>
+
+       {% if property.is_available %}
+    <a href="#" class="apply-btn">
+        <span class="material-icons">assignment</span>
+        Apply For Accommodation
+    </a>
+{% else %}
+    <button class="apply-btn disabled" disabled title="The accommodation is currently not available">
+        <span class="material-icons">assignment</span>
+        Apply For Accommodation
+        
+    </button>
+{% endif %}
+
+    </div>
 
 </div>
-
-</div>
-
 
 
 
@@ -1198,6 +1173,48 @@ document.addEventListener("click", function(e) {
         userBox.classList.remove("active");
     }
 });
+</script>
+
+<script>
+
+let currentImageIndex = 0;
+
+/* GET ALL GALLERY IMAGES */
+const images = Array.from(
+    document.querySelectorAll(".gallery img")
+).map(img => img.src);
+
+function changeImage(src) {
+
+    document.getElementById("mainPropertyImage").src = src;
+
+    currentImageIndex = images.indexOf(src);
+}
+
+function nextImage() {
+
+    currentImageIndex++;
+
+    if (currentImageIndex >= images.length) {
+        currentImageIndex = 0;
+    }
+
+    document.getElementById("mainPropertyImage").src =
+        images[currentImageIndex];
+}
+
+function prevImage() {
+
+    currentImageIndex--;
+
+    if (currentImageIndex < 0) {
+        currentImageIndex = images.length - 1;
+    }
+
+    document.getElementById("mainPropertyImage").src =
+        images[currentImageIndex];
+}
+
 </script>
 </body>
 </html>

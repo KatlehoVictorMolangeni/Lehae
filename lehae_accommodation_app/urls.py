@@ -11,5 +11,10 @@ urlpatterns = [
     path('lehae/myaccommodation/', views.ManageAccommodation, name='ManageAccommodation'),
     path('lehae/find-accommodations/', views.FindAccommodation, name='FindAccommodation'),
     path ('lehae/student/profile/', views.StudentProfile, name='StudentProfilePage'),
+    path('lehae/merchant/register/', views.MerchantRegister, name='MerchantRegister'),
+    path('lehae/merchant/login/', views.MerchantLogin, name='MerchantLogin'),
+    path('lehae/merchant/dashboard/', views.MerchantDashboard, name='MerchantDashboard'),
+    path('lehae/merchant/list-accommodation/', views.ListAccommodationView, name='ListAccommodation'),
+    path("lehae/find-accommodation/property/<int:pk>/", views.PropertyDetailView, name="property_detail"),
     
 ]

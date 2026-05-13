@@ -136,3 +136,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'molangenikatleho00@gmail.com'
 EMAIL_HOST_PASSWORD = 'amve guax zyyx qrwx'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

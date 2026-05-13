@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Profile, Merchant, Property
 
 
 class RegisterForm(forms.Form):
@@ -42,3 +43,58 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError("Passwords do not match")
 
         return cleaned_data
+    
+
+# MERCHANT FORM
+
+class MerchantForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = Merchant
+        fields = [
+            'phone',
+            'id_number',
+            'business_name',
+            'merchant_type',
+            'city',
+            'province',
+            'address',
+            'verification_document'
+        ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm = cleaned_data.get("confirm_password")
+
+        if password != confirm:
+            raise forms.ValidationError("Passwords do not match")
+
+        return cleaned_data
+    
+class PropertyForm(forms.ModelForm):
+    class Meta:
+        model = Property
+        exclude = [
+            'merchant',
+            'is_approved',
+            'is_active',
+            'created_at',
+        ]
+
+        widgets = {
+            'available_from': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Optional: display checkboxes in Django-generated forms
+        self.fields['accreditation'].widget = forms.CheckboxSelectMultiple()
+        self.fields['campuses'].widget = forms.CheckboxSelectMultiple()
+        self.fields['amenities'].widget = forms.CheckboxSelectMultiple()

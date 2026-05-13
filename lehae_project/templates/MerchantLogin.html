@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lehae Security - Login to Your Account</title>
+<title>Lehae Security - Merchant Login</title>
 
 <link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,12 +22,62 @@ body {
     background: white;
 }
 
-/* NAVBAR */
+/* LOADER */
+#page-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* NAV */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 40px;
+    background: white;
     border-bottom: 1px solid #eee;
 }
 
@@ -59,12 +109,11 @@ body {
 
 /* PAGE */
 .page {
-    max-width: 520px;
-    margin: 60px auto;
+    max-width: 600px;
+    margin: 40px auto;
     padding: 20px;
 }
 
-/* HEADER */
 .logo-center {
     display: block;
     margin: 0 auto;
@@ -75,54 +124,207 @@ h2 {
     text-align: center;
     font-family: 'Playfair Display', serif;
     color: var(--dark-blue);
-    font-size: 34px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin: 10px 0 30px;
-    position: relative;
+    font-size: 32px;
+    margin: 10px 0 10px;
 }
 
+/* optional underline accent */
 h2::after {
-    content: "";
+    content: "  ";
     display: block;
     width: 60px;
     height: 3px;
     background: var(--gold);
     margin: 10px auto 0;
     border-radius: 2px;
+
+}
+.section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 30px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* FIELD */
+/* INPUTS */
 .field {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: var(--dark-blue);
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
-/* INPUT LINE */
 .input-line {
     display: flex;
     align-items: center;
     border-bottom: 2px solid #ddd;
     padding: 8px 0;
-    gap: 10px;
 }
 
-.input-line input {
+.input-line input,
+.input-line select,
+.input-line textarea {
     border: none;
     outline: none;
     width: 100%;
-    font-size: 15px;
+    font-size: 14px;
     background: transparent;
+    font-family: 'Inter', sans-serif;
 }
 
 .input-line:focus-within {
     border-bottom: 2px solid var(--gold);
+}
+
+/* TEXTAREA */
+textarea {
+    resize: none;
+    height: 60px;
+}
+
+/* FILE UPLOAD */
+.file-input {
+    border: 1px dashed #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--gold);
+    border: none;
+    border-radius: 80px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* TERMS */
+.terms-label {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.terms-label input {
+    margin-top: 3px;
+    accent-color: var(--gold);
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    color: #666;
+}
+
+.required {
+    color: var(--gold);
+}
+
+.terms {
+    margin: 25px 0;
+}
+
+.terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+.terms-label input {
+    margin-top: 3px;
+    transform: scale(1.1);
+    accent-color: var(--gold);
+}
+
+/* text wrapper */
+.terms-text {
+    font-weight: 400;
+}
+
+/* GOLD LUXURY LINK STYLE */
+.terms-text a {
+    color: var(--dark-blue);
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* animated underline */
+.terms-text a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0%;
+    height: 2px;
+    background: var(--gold);
+    transition: 0.3s ease;
+}
+
+/* hover effect */
+.terms-text a:hover {
+    color: var(--gold);
+}
+
+.terms-text a:hover::after {
+    width: 100%;
+}
+
+.toggle-password {
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+}
+
+.disabled-btn {
+    width: 100%;
+    padding: 12px;
+     border-radius: 80px;
+    border: none;
+    font-weight: 800;
+
+    background: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+.enabled-btn {
+    background: var(--gold);
+    color: var(--dark-blue);
+    cursor: pointer;
+}
+
+/* ACCOUNT */
+.account {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 30px;
+}
+
+.account a {
+    color: var(--dark-blue);
+    font-weight: 600;
+    text-decoration: none;
 }
 
 /* PASSWORD ICON */
@@ -167,100 +369,6 @@ h2::after {
     color: var(--gold);
 }
 
-
-
-/* BUTTON */
-button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 80px;
-    border: none;
-    font-weight: 800;
-    background: var(--gold);
-    color: var(--dark-blue);
-    cursor: pointer;
-}
-
-/* ACCOUNT */
-.account {
-    text-align: center;
-    font-size: 13px;
-    margin-top: 30px;
-}
-
-.account a {
-    color: var(--dark-blue);
-    font-weight: 600;
-    text-decoration: none;
-}
-
-/* FOOTER FULL WIDTH */
-.footer {
-    text-align: center;
-    font-size: 13px;
-    margin-top: 40px;
-    padding: 20px 0;
-    border-top: 1px solid #e5e5e5;
-    color: #666;
-
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    margin-left: -50vw;
-}
-
-/* LOADER */
-#page-loader {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.loader-logo {
-    width: 180px;
-    animation: pulse 1.2s infinite;
-}
-
-.loader-bar {
-    width: 220px;
-    height: 4px;
-    background: #eee;
-    margin-top: 15px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-}
-
-.loader-bar::before {
-    content: "";
-    position: absolute;
-    width: 40%;
-    height: 100%;
-    background: var(--gold);
-    animation: slide 1.2s infinite;
-}
-
-@keyframes slide {
-    0% { left: -40%; }
-    50% { left: 60%; }
-    100% { left: -40%; }
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.required {
-    color: var(--gold);
-}
-
 .message {
     text-align: center;
     margin-bottom: 15px;
@@ -279,26 +387,21 @@ button {
     color: #0a7a0a;
 }
 
+   
 </style>
 </head>
 
 <body>
-
-<!-- LOADER -->
+    <!-- LOADER -->
 <div id="page-loader">
-    <div>
-        <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
-        <div class="loader-bar"></div>
-    </div>
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+    <div class="loader-bar"></div>
 </div>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
-
     <div class="nav-right">
-        <a href="{% url 'Login' %}" class="nav-btn login">Login</a>
-        <a href="{% url 'Register' %}" class="nav-btn signup">Sign Up</a>
+        <a href="{% url 'MerchantRegister' %}" class="nav-btn signup">Sign Up As Merchant</a>
     </div>
 </div>
 
@@ -307,12 +410,12 @@ button {
 
     <img src="{% static 'images/Lehae-head-logo.png' %}" class="logo-center">
 
-    <h2>Lehae Login.</h2>
+    <h2>Login To Your Merchant Account.</h2>
 
     <form method="POST">
     {% csrf_token %}
 
-     {% if messages %}
+    {% if messages %}
     {% for message in messages %}
         <div class="message {{ message.tags }}">
             {{ message }}
@@ -349,24 +452,24 @@ button {
 
     <!-- ACCOUNT -->
     <div class="account">
-        Don’t have your Lehae account? <a href="{% url 'Register' %}"> Go Sign up Page</a>
+        Don’t have your Lehae account? <a href="{% url 'MerchantRegister' %}"> Go Sign up Page</a>
     </div>
 
-    <div class="footer">
-        © 2026 Lehae (Pty) Ltd. All rights reserved
-    </div>
 
+
+<div class="footer">
+    © 2026 Lehae (Pty) Ltd. Merchant System
 </div>
-321
 
-89
-<script>
+ <script>
 window.addEventListener("load", function () {
     setTimeout(() => {
         document.getElementById("page-loader").style.display = "none";
     }, 1000);
 });
+</script>
 
+<script>
 function togglePassword(fieldId, icon) {
     const input = document.getElementById(fieldId);
 
@@ -378,7 +481,23 @@ function togglePassword(fieldId, icon) {
         icon.innerText = "visibility_off";
     }
 }
+
+function toggleButton() {
+    const checkbox = document.getElementById("termsCheck");
+    const button = document.getElementById("signupBtn");
+
+    if (checkbox.checked) {
+        button.disabled = false;
+        button.classList.remove("disabled-btn");
+        button.classList.add("enabled-btn");
+    } else {
+        button.disabled = true;
+        button.classList.add("disabled-btn");
+        button.classList.remove("enabled-btn");
+    }
+}
 </script>
+
 
 </body>
 </html>

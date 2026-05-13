@@ -1,0 +1,510 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lehae Security - Merchant Registration</title>
+
+<link rel="icon" type="image/png" href="{% static 'images/Lehae-head-logo.png' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+:root {
+    --dark-blue: #080144;
+    --gold: #d4af37;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: white;
+}
+
+/* LOADER */
+#page-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-logo {
+    width: 180px;
+    animation: pulse 1.2s infinite;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 4px;
+    background: #eee;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-bar::before {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background: var(--gold);
+    animation: slide 1.2s infinite;
+}
+
+@keyframes slide {
+    0% { left: -40%; }
+    50% { left: 60%; }
+    100% { left: -40%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* NAV */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    height: 150px;
+}
+
+.nav-right {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login {
+    border: 1px solid var(--gold);
+    color: var(--dark-blue);
+}
+
+.signup {
+    background: var(--gold);
+    color: var(--dark-blue);
+}
+
+/* PAGE */
+.page {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.logo-center {
+    display: block;
+    margin: 0 auto;
+    height: 90px;
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    color: var(--dark-blue);
+    font-size: 32px;
+    margin: 10px 0 10px;
+}
+
+/* optional underline accent */
+h2::after {
+    content: "  ";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 10px auto 0;
+    border-radius: 2px;
+
+}
+.section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 30px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* INPUTS */
+.field {
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark-blue);
+    margin-bottom: 6px;
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding: 8px 0;
+}
+
+.input-line input,
+.input-line select,
+.input-line textarea {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-line:focus-within {
+    border-bottom: 2px solid var(--gold);
+}
+
+/* TEXTAREA */
+textarea {
+    resize: none;
+    height: 60px;
+}
+
+/* FILE UPLOAD */
+.file-input {
+    border: 1px dashed #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--gold);
+    border: none;
+    border-radius: 80px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* TERMS */
+.terms-label {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.terms-label input {
+    margin-top: 3px;
+    accent-color: var(--gold);
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    color: #666;
+}
+
+.required {
+    color: var(--gold);
+}
+
+.terms {
+    margin: 25px 0;
+}
+
+.terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+.terms-label input {
+    margin-top: 3px;
+    transform: scale(1.1);
+    accent-color: var(--gold);
+}
+
+/* text wrapper */
+.terms-text {
+    font-weight: 400;
+}
+
+/* GOLD LUXURY LINK STYLE */
+.terms-text a {
+    color: var(--dark-blue);
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* animated underline */
+.terms-text a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0%;
+    height: 2px;
+    background: var(--gold);
+    transition: 0.3s ease;
+}
+
+/* hover effect */
+.terms-text a:hover {
+    color: var(--gold);
+}
+
+.terms-text a:hover::after {
+    width: 100%;
+}
+
+.toggle-password {
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+}
+
+.disabled-btn {
+    width: 100%;
+    padding: 12px;
+     border-radius: 80px;
+    border: none;
+    font-weight: 800;
+
+    background: #ccc;
+    color: #777;
+    cursor: not-allowed;
+}
+
+.enabled-btn {
+    background: var(--gold);
+    color: var(--dark-blue);
+    cursor: pointer;
+}
+
+   
+</style>
+</head>
+
+<body>
+    <!-- LOADER -->
+<div id="page-loader">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="loader-logo">
+    <div class="loader-bar"></div>
+</div>
+
+<div class="navbar">
+    <img src="{% static 'images/lehae-main-logo.png' %}" class="logo">
+    <div class="nav-right">
+        <a href="{% url 'MerchantLogin' %}" class="nav-btn login">Login As Merchant</a>
+    </div>
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<div class="page">
+
+    <img src="{% static 'images/Lehae-head-logo.png' %}" class="logo-center">
+
+    <h2>Create Your Merchant Registration</h2>
+
+    <!-- PERSONAL -->
+    <div class="section-title">Personal Details</div>
+
+    <div class="field">
+        <div class="label">First Name<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="first_name" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Last Name<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="last_name" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Phone Number<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="phone" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">ID Number<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="id_number" required>
+        </div>
+    </div>
+
+    <!-- BUSINESS -->
+    <div class="section-title">Business Information</div>
+
+    <div class="field">
+        <div class="label">Business Name<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="business_name" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Merchant Type<span class="required"> *</span></div>
+        <div class="input-line">
+            <select name="merchant_type">
+                <option>Individual Landlord</option>
+                <option>Property Company</option>
+                <option>Student Residence</option>
+                <option>Hostel Operator</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">City<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="city" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Province<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="text" name="province" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Business Address<span class="required"> *</span></div>
+        <div class="input-line">
+            <textarea name="address" required></textarea>
+        </div>
+    </div>
+
+    <!-- VERIFICATION -->
+    <div class="section-title">Verification</div>
+
+    <div class="field">
+        <div class="label">Upload Proof of Ownership / Lease<span class="required"> *</span></div>
+        <input type="file" name="verification_document" class="file-input" required>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="section-title">Account Security</div>
+
+    <div class="field">
+        <div class="label">Email<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="email" name="email" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Password<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="password" name="password" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">Confirm Password<span class="required"> *</span></div>
+        <div class="input-line">
+            <input type="password" name="confirm_password" required>
+        </div>
+    </div>
+
+    <!-- TERMS -->
+   <div class="terms">
+    <label class="terms-label">
+        <input type="checkbox" id="termsCheck" onchange="toggleButton()" required>
+
+        <span class="terms-text">
+            I confirm that all information provided is accurate and I agree to
+            <a href="#" target="_blank">Lehae’s Terms and Privacy Policy</a>
+        </span>
+    </label>
+</div>
+
+    <button type="submit" id="signupBtn" disabled class="disabled-btn">Create Merchant Account</button>
+
+</div>
+</form>
+
+<div class="footer">
+    © 2026 Lehae (Pty) Ltd. Merchant System
+</div>
+
+ <script>
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        document.getElementById("page-loader").style.display = "none";
+    }, 1000);
+});
+</script>
+
+<<script>
+function togglePassword(fieldId, icon) {
+    const input = document.getElementById(fieldId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.innerText = "visibility";
+    } else {
+        input.type = "password";
+        icon.innerText = "visibility_off";
+    }
+}
+
+function toggleButton() {
+    const checkbox = document.getElementById("termsCheck");
+    const button = document.getElementById("signupBtn");
+
+    if (checkbox.checked) {
+        button.disabled = false;
+        button.classList.remove("disabled-btn");
+        button.classList.add("enabled-btn");
+    } else {
+        button.disabled = true;
+        button.classList.add("disabled-btn");
+        button.classList.remove("enabled-btn");
+    }
+}
+</script>
+
+
+</body>
+</html>
